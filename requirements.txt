@@ -1,0 +1,6 @@
+pandas
+numpy
+mediapipe
+opencv
+streamlit
+tensorflow
