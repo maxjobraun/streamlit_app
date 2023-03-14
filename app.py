@@ -7,10 +7,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import tensorflow as tf
 #Sklearn
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
-from functions import train_val_test_split, parquets_to_Xy, load_relevant_data_subset
-
+from functions import load_relevant_data_subset
+mp_holistic = mp.solutions.holistic
 
 
 st.markdown("Welcome to our Isolated Sign Language Interpreter!")
@@ -76,13 +74,17 @@ if button:
     cv2.destroyAllWindows()
 
     ## Reading parquet
-    path = r'~/code/Mohammad-Fadel/isolated_sign_language/streamlit_app/landmarks.parquet'
+    path = r'~/code/project/streamlit_app/landmarks.parquet'
     ## Reading parquet and processing it into X_pred format
     lips_landmarks = [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84]
     ROWS_PER_FRAME = 75 + len(lips_landmarks)
     input_read = load_relevant_data_subset(path, max_frames=100)
     X_pred = np.array(input_read)
-    model = tf.keras.models.load_model(r'~/code/Mohammad-Fadel/isolated_sign_language/streamlit_app/my_model')
+    #print(X_pred.shape)
+    path2 = r'/home/ingeswart/code/Mohammad-Fadel/isolated_sign_language/my_model.h5'
+    model = tf.keras.models.load_model(path2, compile=False)
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    X_pred = X_pred.reshape(1, 100, 99 * 3)
     y_pred = model.predict(X_pred)
     # take index of highest probability value and match it to the list of words the model was trained on
     y_pred_index = np.argmax(y_pred)
