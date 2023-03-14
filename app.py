@@ -3,8 +3,6 @@ import pandas as pd
 import cv2
 import mediapipe as mp
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
 import tensorflow as tf
 #Sklearn
 from functions import load_relevant_data_subset
@@ -13,8 +11,8 @@ mp_holistic = mp.solutions.holistic
 
 st.markdown("Welcome to our Isolated Sign Language Interpreter!")
 st.markdown("Ready? Click below and sign away!")
-button = st.button("Start sign capture")
-if button:
+start_button = st.button("Start sign capture")
+if start_button:
     st.markdown("Your sign is being analyzed, one moment please..")
     frame_count = 0
     cap = cv2.VideoCapture(0)
@@ -63,9 +61,10 @@ if button:
             mp.solutions.drawing_utils.draw_landmarks(image, results.right_hand_landmarks, mp.solutions.holistic.HAND_CONNECTIONS)
             mp.solutions.drawing_utils.draw_landmarks(image, results.left_hand_landmarks, mp.solutions.holistic.HAND_CONNECTIONS)
             cv2.imshow('Raw Webcam Feed', image)
-            if cv2.waitKey(10) & 0xFF == ord('q'):
+            end_button = st.button("Stop sign capture")
+            if end_button:
                 break
-            frame_count += 1
+                frame_count += 1
     # Convert list to dataframe
     landmark_df = pd.DataFrame(landmark_data, columns=['frame', 'type', 'landmark_index', 'x', 'y', 'z'])
     # Write dataframe to parquet file
