@@ -13,7 +13,6 @@ st.markdown("Welcome to our Isolated Sign Language Interpreter!")
 st.markdown("Ready? Click below and sign away!")
 start_button = st.button("Start sign capture")
 if start_button:
-    st.markdown("Your sign is being analyzed, one moment please..")
     frame_count = 0
     cap = cv2.VideoCapture(0)
     # Initiate holistic model
@@ -72,6 +71,7 @@ if start_button:
     cap.release()
     cv2.destroyAllWindows()
 
+    st.markdown("Your sign is being analyzed, one moment please..")
     ## Reading parquet
     path = r'~/code/project/streamlit_app/landmarks.parquet'
     ## Reading parquet and processing it into X_pred format
