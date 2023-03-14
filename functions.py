@@ -1,5 +1,8 @@
 ## Write function to train-val-test split filtered DataFrame
-
+import pandas as pd
+import numpy as np
+lips_landmarks = [61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84]
+ROWS_PER_FRAME = 75 + len(lips_landmarks)
 def train_val_test_split(df, pqs_per_sign):
     '''
     Takes the train.csv DataFrame containing parquet files grouped by sign and splits each sign into train val & test PARQUETS
